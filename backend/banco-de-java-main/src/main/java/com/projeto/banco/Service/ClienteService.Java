@@ -1,4 +1,4 @@
-package com.git.banco.service;
+package com.projeto.banco.service;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.git.banco.model.Cliente;
-import com.git.banco.model.ClienteFisica;
-import com.git.banco.model.ClienteEmpresa;
-import com.git.banco.repository.ClienteRepository;
+import com.projeto.banco.model.Cliente;
+import com.projeto.banco.model.ClienteFisica;
+import com.projeto.banco.model.ClienteEmpresa;
+import com.projeto.banco.repository.ClienteRepository;
 
 @Service
 public class ClienteService {
@@ -20,12 +20,15 @@ public class ClienteService {
         this.clienteRepository = clienteRepository;
     }
 
-    public Cliente cadastrar(String nome, String senha, String email, String endereco, String contato, String documento) {
+    public Cliente cadastrar(String tipo, String nome, String senha, String email, String endereco, String contato, String documento) {
+        if (!"PJ".equalsIgnoreCase(tipo) && !"PF".equalsIgnoreCase(tipo)) {
+            throw erro("Tipo de cliente invalido. Use PF ou PJ.");
+        }
         validarDocumentoUnico(documento);
 
-        Cliente cliente = tipo.equalsIgnoreCase("PJ")
-                ? new Clienteempresa(nome, cnpj, endereco,  email,  contato,  senha)
-                : new Clientefisica(nome, cpf, endereco,  email,  contato,  senha)
+        Cliente cliente = "PJ".equalsIgnoreCase(tipo)
+                ? new ClienteEmpresa(nome, documento, endereco, email, contato, senha)
+                : new ClienteFisica(nome, documento, endereco, email, contato, senha);
 
         return clienteRepository.save(cliente);
     }

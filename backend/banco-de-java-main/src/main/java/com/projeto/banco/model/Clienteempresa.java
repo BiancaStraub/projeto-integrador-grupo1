@@ -1,40 +1,23 @@
 package com.projeto.banco.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "tb_cliente_empresa")
+@Entity
+@DiscriminatorValue("PJ")
 @Getter
 @NoArgsConstructor
-public class Clienteempresa  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column(nullable = false)
+public class ClienteEmpresa extends Cliente {
+    // This column shares the table with ClienteFisica rows, so it must be nullable.
+    @Column
     private String cnpj;
-    @Column(nullable = false)
-    private String nome;
-    @Column(nullable = false, unique = true)
-    private String senha;
-    private String email;
-    private String endereco;
-    private String contato;
-    private String documento;
 
-    
-    protected Clienteempresa (String nome, String cnpj, String endereco, String email, String contato, String senha, String documento) {
-        this.nome = nome;
-        this.senha = senha;
-        this.email = email;
-        this.endereco = endereco;
-        this.contato = contato;
+    public ClienteEmpresa(String nome, String cnpj, String endereco, String email, String contato, String senha) {
+        super(nome, cnpj, endereco, email, contato, senha);
         this.cnpj = cnpj;
-        this.documento = documento;
     }
 }
     

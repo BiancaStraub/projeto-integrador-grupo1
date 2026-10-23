@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  "preset": "luna",
+  "presets": {
+    "luna": {
+      "orchestrator": { "model": "openai/gpt-6-luna", "variant": "medium", "skills": [], "mcps": [] },
+      "oracle":       { "model": "openai/gpt-6-luna", "variant": "medium", "skills": [], "mcps": [] },
+      "librarian":    { "model": "openai/gpt-6-luna", "variant": "low",    "skills": [], "mcps": [] },
+      "explorer":     { "model": "openai/gpt-6-luna", "variant": "low",    "skills": [], "mcps": [] },
+      "designer":     { "model": "openai/gpt-6-luna", "variant": "medium", "skills": [], "mcps": [] },
+      "fixer":        { "model": "openai/gpt-6-luna", "variant": "low",    "skills": [], "mcps": [] }
+    }
+  }
+}

@@ -1,29 +1,38 @@
 package com.projeto.banco.model;
-import Jakart.persitence.column;
-import Jakart.persitence.Entity;
-import Jakart.persistence.GeneratedValue;
-import Jakart.persistence.GeneratedType;
-import Jakart.persistence.id;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "tb_clientefisica")
+@Entity
 @Getter
 @NoArgsConstructor
-class Clientefisica {
-    @id
-    @column(nullable = false)
+public class ClienteFisica {
+
+    @Id
+    @Column(nullable = false)
     private String cpf;
+
     @Column(nullable = false)
     private String nome;
+
     @Column(nullable = false, unique = true)
     private String senha;
+
     private String email;
     private String endereco;
     private String contato;
 
+    protected ClienteFisica(
+            String nome,
+            String cpf,
+            String endereco,
+            String email,
+            String contato,
+            String senha) {
 
-    protected Cliente(String nome, String cpf, String endereco, String email, String contato, String senha) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
@@ -32,5 +41,3 @@ class Clientefisica {
         this.cpf = cpf;
     }
 }
-    
-

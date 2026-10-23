@@ -1,11 +1,11 @@
-package com.git.cliente.controller;
+package com.projeto.banco.controller;
 
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.git.banco.model.Cliente;
-import com.git.banco.service.ClienteService;
+import com.projeto.banco.model.Cliente;
+import com.projeto.banco.service.ClienteService;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -23,8 +23,9 @@ public class ClienteController {
                              @RequestParam String email,
                              @RequestParam String endereco,
                              @RequestParam String contato,
-                             @RequestParam(required = false) String email) {
-        return clienteService.cadastrar(nome, senha, email,endereco,contato);
+                             @RequestParam String tipo,
+                             @RequestParam String documento) {
+        return clienteService.cadastrar(tipo, nome, senha, email, endereco, contato, documento);
     }
 
     @GetMapping
