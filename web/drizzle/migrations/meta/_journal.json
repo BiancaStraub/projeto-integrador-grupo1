@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793137928591,
+      "tag": "0000_secure_registration_support",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793138199791,
+      "tag": "0001_harden_rpc_grants",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793138499445,
+      "tag": "0002_support_profile_visibility",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794102506575,
+      "tag": "0003_store_catalog_management",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794102517804,
+      "tag": "0004_scope_store_stock_to_branch",
+      "breakpoints": true
+    }
+  ]
+}

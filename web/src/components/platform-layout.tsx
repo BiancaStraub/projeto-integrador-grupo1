@@ -1,0 +1,8 @@
+import {Link,useNavigate} from '@tanstack/react-router';
+import {useQueryClient,useSuspenseQuery} from '@tanstack/react-query';
+import {LogOut,MessageCircle,UserRound,LayoutDashboard,Package} from 'lucide-react';
+import {Button} from '@/components/ui/button';
+import {supabase} from '@/integrations/supabase/client';
+import {accountQuery} from '@/lib/platform-queries';
+import type {ReactNode} from 'react';
+export function PlatformLayout({title,children}:{title:string;children:ReactNode}){const {data}=useSuspenseQuery(accountQuery());const client=useQueryClient();const navigate=useNavigate();const staff=data.roles.some(r=>r==='admin'||r==='branch_manager');return <main className="page-width platform-page"><div className="platform-top"><div><p className="eyebrow text-primary">Maison · {data.profile.display_name||'Sua conta'}</p><h1 className="section-heading mt-2">{title}</h1></div><Button variant="ghost" size="icon" title="Sair" aria-label="Sair" onClick={async()=>{await client.cancelQueries();client.clear();await supabase.auth.signOut();await navigate({to:'/auth',replace:true});}}><LogOut size={18}/></Button></div><nav className="platform-nav" aria-label="Sua conta"><Button variant="ghost" asChild><Link to="/conta"><UserRound size={16}/>Meu cadastro</Link></Button><Button variant="ghost" asChild><Link to="/atendimento"><MessageCircle size={16}/>Atendimento</Link></Button>{staff&&<Button variant="ghost" asChild><Link to="/gestao"><LayoutDashboard size={16}/>Gerenciamento</Link></Button>}{data.roles.includes('admin')&&<Button variant="ghost" asChild><Link to="/loja"><Package size={16}/>Gestão da loja</Link></Button>}</nav>{children}</main>;}

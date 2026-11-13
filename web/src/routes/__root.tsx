@@ -15,6 +15,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { BakeryProvider } from '@/components/bakery-store';
 import { BakeryShell } from '@/components/bakery-shell';
 import { Toaster } from '@/components/ui/sonner';
+import { AccountProvider } from '@/components/account-provider';
 
 function NotFoundComponent() {
   return (
@@ -122,7 +123,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <BakeryProvider><BakeryShell><Outlet /></BakeryShell><Toaster position="bottom-right" /></BakeryProvider>
+      <AccountProvider><BakeryProvider><BakeryShell><Outlet /></BakeryShell><Toaster position="bottom-right" /></BakeryProvider></AccountProvider>
     </QueryClientProvider>
   );
 }

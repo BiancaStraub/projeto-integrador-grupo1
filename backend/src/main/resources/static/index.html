@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fbf8f4">
+    <meta name="description" content="Maison Padaria e Confeitaria: pães artesanais, doces que abraçam e pequenos prazeres feitos para você.">
+    <title>Maison Padaria e Confeitaria — feito à mão, todos os dias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Pular para o conteúdo</a>
+    <div class="announcement"><span class="announcement__mark" aria-hidden="true">✳</span> Demonstração local · sem pagamento real <span class="announcement__divider">·</span> feito à mão, com carinho</div>
+    <header class="site-header">
+      <a class="brand" href="#/" aria-label="Maison Padaria e Confeitaria — início">
+        <span class="brand__monogram" aria-hidden="true">m</span>
+        <span class="brand__wordmark">maison<small>PADARIA E CONFEITARIA</small></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu"><span></span><span></span></button>
+      <nav class="primary-nav" id="primary-nav" aria-label="Navegação principal">
+        <a href="#/catalogo">Vitrine</a>
+        <a href="#/promocoes">Ofertas</a>
+        <a href="#/bolo">Monte seu bolo</a>
+        <a href="#/avaliacoes">Avaliações</a>
+        <a href="#/pedidos">Pedidos</a>
+        <a href="#/conta">Minha conta</a>
+        <a href="#/suporte">Atendimento</a>
+        <a class="primary-nav__management" href="#/gestao">Gestão demo</a>
+      </nav>
+      <div class="header-actions">
+        <a class="branch-shortcut" href="#/filial" aria-label="Selecionar filial"><span aria-hidden="true">⌖</span><span id="header-branch">Escolher filial</span></a>
+        <a class="bag-link" href="#/carrinho" aria-label="Sacola, 0 itens"><span class="bag-link__icon" aria-hidden="true">♧</span><span class="bag-link__label">Sacola</span><span class="bag-count" id="bag-count" aria-live="polite">0</span></a>
+      </div>
+    </header>
+
+    <main id="app" tabindex="-1" aria-live="polite"></main>
+
+    <footer class="site-footer">
+      <div class="site-footer__main">
+        <a class="brand brand--footer" href="#/" aria-label="Maison Padaria e Confeitaria — início"><span class="brand__monogram" aria-hidden="true">m</span><span class="brand__wordmark">maison<small>PADARIA E CONFEITARIA</small></span></a>
+        <p>Uma fornada quentinha, um motivo a mais para ficar à mesa.</p>
+        <nav aria-label="Links do rodapé"><a href="#/filial">Nossas lojas</a><a href="#/suporte">Fale com a gente</a><a href="#/avaliacoes">Deixe sua avaliação</a></nav>
+      </div>
+      <div class="site-footer__bottom"><span>© 2026 Maison Padaria e Confeitaria</span><span id="backend-status" role="status" aria-live="polite">Conferindo filiais e estoque…</span></div>
+    </footer>
+    <div class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>

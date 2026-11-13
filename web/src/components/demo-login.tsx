@@ -1,0 +1,5 @@
+import {Link} from '@tanstack/react-router';
+import {Button} from '@/components/ui/button';
+import {useBakery} from './bakery-store';
+import {demoAccounts} from '@/lib/demo-accounts';
+export function DemoLogin(){const store=useBakery();return <section className="border-t mt-10 pt-7 pb-8"><h2 className="text-3xl">Contas de teste</h2><p className="text-sm text-muted-foreground mt-2">Demonstração isolada · Dados fictícios · Sem acesso aos cadastros reais</p><div className="grid gap-4 mt-5">{demoAccounts.map(a=><article key={a.id} className="border rounded-md p-4"><h3 className="font-sans text-sm font-semibold">{a.name}</h3><dl className="text-xs mt-3 space-y-2"><div><dt className="text-muted-foreground">Login</dt><dd className="break-all mt-1">{a.email}</dd></div><div><dt className="text-muted-foreground">Senha de demonstração</dt><dd className="mt-1">{a.password}</dd></div></dl><Button asChild variant="outline" className="mt-4" onClick={()=>store.startDemo(a.id)}><Link to="/testes">Entrar neste teste</Link></Button></article>)}</div></section>;}

@@ -1,0 +1,8 @@
+import {createFileRoute} from '@tanstack/react-router';
+import {useSuspenseQuery,useQueryClient} from '@tanstack/react-query';
+import {PlatformLayout} from '@/components/platform-layout';
+import {RegistrationForm} from '@/components/registration-form';
+import {accountQuery,registrationQuery} from '@/lib/platform-queries';
+import {pageHead} from '@/lib/bakery';
+export const Route=createFileRoute('/_authenticated/conta')({head:()=>pageHead('Meu cadastro','Gerencie seus dados pessoais e seu atendimento Maison com privacidade.'),loader:async({context})=>{await context.queryClient.ensureQueryData(accountQuery());await context.queryClient.ensureQueryData(registrationQuery({category:'person',search:'',status:'all',branch:'',page:0,own:true}));},component:Account});
+function Account(){const {data:account}=useSuspenseQuery(accountQuery());const {data}=useSuspenseQuery(registrationQuery({category:'person',search:'',status:'all',branch:'',page:0,own:true}));const client=useQueryClient();const record=data.rows.find(r=>r.user_id===account.profile.id);return <PlatformLayout title="Meu cadastro"><section className="platform-content"><h2 className="text-2xl mb-6">Seus dados</h2><RegistrationForm key={record?.id??'new'} category="person" record={record} onSaved={()=>{void client.invalidateQueries({queryKey:['platform']});}}/>{record&&<p className="text-xs text-muted-foreground mt-6">Cadastrado em {new Date(record.created_at).toLocaleDateString('pt-BR')} · {record.active?'Ativo':'Inativo'}</p>}</section></PlatformLayout>;}

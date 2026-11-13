@@ -1,0 +1,3 @@
+CREATE FUNCTION public.can_read_support_profile(who uuid, target uuid) RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER SET search_path=public AS $$ SELECT EXISTS(SELECT 1 FROM public.conversations c WHERE (c.client_id=target OR c.assigned_to=target) AND (c.client_id=who OR public.has_role(who,'admin') OR public.manages_branch(who,c.branch_id) OR (c.assigned_to=who AND public.has_role(who,'agent')))) $$;
+REVOKE ALL ON FUNCTION public.can_read_support_profile(uuid,uuid) FROM PUBLIC,anon; GRANT EXECUTE ON FUNCTION public.can_read_support_profile(uuid,uuid) TO authenticated;
+CREATE POLICY support_profile_visibility ON public.profiles FOR SELECT TO authenticated USING(public.can_read_support_profile(auth.uid(),id));
