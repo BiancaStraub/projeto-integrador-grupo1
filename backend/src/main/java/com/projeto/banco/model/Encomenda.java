@@ -41,13 +41,13 @@ public class Encomenda {
     private String endereco;
 
     @Column(name = "cpf_cnpj", nullable = false, length = 18)
-    private String cpfCnpj; // Aceita CPF (PF) ou CNPJ (PJ)
+    private String cpfCnpj;
 
     @Column(nullable = false)
-    private LocalDateTime dataPedido = LocalDateTime.now(); // Registro de quando foi feito
+    private LocalDateTime dataPedido = LocalDateTime.now();
 
     @Column(nullable = false)
-    private LocalDateTime dataEntregaPrevista; // Data/hora agendada para retirada ou entrega
+    private LocalDateTime dataEntregaPrevista;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 25)
@@ -57,15 +57,15 @@ public class Encomenda {
     private BigDecimal valorTotal = BigDecimal.ZERO;
 
     @Column(length = 500)
-    private String observacoesGerais; // Ex: "Entregar na portaria", "Pagamento na retirada"
+    private String observacoesGerais;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente; // Vínculo com ClienteFisica ou ClienteEmpresa
+    private Cliente cliente;
 
     @ManyToOne
     @JoinColumn(name = "filial_id")
-    private Filial filial; // Unidade física da padaria responsável pelo pedido
+    private Filial filial;
 
     @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemEncomenda> itens = new ArrayList<>();
@@ -87,8 +87,6 @@ public class Encomenda {
         this.status = StatusEncomenda.PENDENTE;
     }
 
-    // --- Métodos de Gestão do Pedido ---
-
     public void adicionarItem(ItemEncomenda item) {
         item.setEncomenda(this);
         item.calcularSubtotal();
@@ -108,11 +106,8 @@ public class Encomenda {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    // --- Métodos de Gestão do Chat ---
-
     public void enviarMensagem(String remetente, TipoRemetente tipo, String texto) {
         Mensagem novaMensagem = new Mensagem(this, remetente, tipo, texto);
         this.historicoMensagens.add(novaMensagem);
     }
 }
-

@@ -17,6 +17,15 @@ public class EncomendaService {
     }
 
     public Encomenda cadastrar(Encomenda encomenda) {
+        // Se a encomenda vier com itens, garante que o relacionamento e os totais estão corretos
+        if (encomenda.getItens() != null && !encomenda.getItens().isEmpty()) {
+            encomenda.getItens().forEach(item -> {
+                item.setEncomenda(encomenda);
+                item.calcularSubtotal();
+            });
+            encomenda.recalcularValorTotal();
+        }
+        
         return repository.save(encomenda);
     }
 

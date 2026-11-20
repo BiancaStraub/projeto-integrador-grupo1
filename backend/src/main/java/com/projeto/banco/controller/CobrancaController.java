@@ -18,14 +18,8 @@ public class CobrancaController {
     }
 
     @PostMapping
-    public String cadastrar(
-            @RequestParam String data,
-            @RequestParam String valor,
-            @RequestParam String instituicao,
-            @RequestParam String lembrete) {
-
-        return cobrancaService.cadastrar(
-                data, valor, instituicao, lembrete);
+    public Cobranca cadastrar(@RequestBody Cobranca cobranca) {
+        return cobrancaService.cadastrar(cobranca);
     }
 
     @GetMapping

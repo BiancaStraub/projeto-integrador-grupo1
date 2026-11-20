@@ -1,28 +1,34 @@
 package com.projeto.banco.model;
-import  jakart.persistence.column;
-import  Jakart.persistence.Entity;
-import  Jakart.persistence.GeneratedValue;
-import  Jakart.persistence.GeneratedType;
-import  Jakart.persistence.id;
-import  lombok.Getter;
-import  lombok.NoArgsConstructor;
 
-@Entity(nome = "tb_cobranca")
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity(name = "tb_cobranca")
 @Getter
+@Setter
 @NoArgsConstructor
-class cobranca {
-    @id
-    @GeneratedValue(stratagy = GeneratedType.IDENTITY)
-    private long id;
-    @column(nullable = false)
+public class Cobranca {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String data;
-    @column(nullable = false)
+
+    @Column(nullable = false)
     private String valor;
-    @column(nullable = false)
+
+    @Column(nullable = false)
     private String instituicao;
-    @column(nullable = false)
+
+    @Column(nullable = false)
     private String lembrete;
-    
-    
 }
 

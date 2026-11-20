@@ -2,6 +2,7 @@ package com.projeto.banco.Controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.projeto.banco.Service.MensagemService;
@@ -18,14 +19,8 @@ public class MensagemController {
     }
 
     @PostMapping
-    public String cadastrar(
-            @RequestParam String pedido,
-            @RequestParam String remetente,
-            @RequestParam String texto,
-            @RequestParam String data_envio) {
-
-        return mensagemService.cadastrar(
-                pedido, remetente, texto, data_envio);
+    public Mensagem cadastrar(@RequestBody Mensagem mensagem) {
+        return mensagemService.cadastrar(mensagem);
     }
 
     @GetMapping
@@ -34,7 +29,9 @@ public class MensagemController {
     }
 
     @GetMapping("/{id}")
-    public Mensagem buscar(@PathVariable Long id) {
-        return mensagemService.buscarPorId(id);
+    public ResponseEntity<Mensagem> buscar(@PathVariable Long id) {
+        return mensagemService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

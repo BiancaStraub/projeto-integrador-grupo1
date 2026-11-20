@@ -27,14 +27,14 @@ public class Mensagem {
 
     @ManyToOne
     @JoinColumn(name = "encomenda_id", nullable = false)
-    private Encomenda encomenda; // Vincula todas as mensagens ao histórico da encomenda
+    private Encomenda encomenda;
 
     @Column(nullable = false, length = 100)
-    private String remetente; // Nome de quem enviou (Ex: "Carlos" ou "Padaria Central")
+    private String remetente;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private TipoRemetente tipoRemetente; // CLIENTE, ATENDENTE ou SISTEMA
+    private TipoRemetente tipoRemetente;
 
     @Column(nullable = false, length = 1000)
     private String texto;

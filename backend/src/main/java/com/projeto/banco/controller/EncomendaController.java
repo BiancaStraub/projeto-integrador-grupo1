@@ -1,3 +1,7 @@
+package com.projeto.banco.Controller;
+
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 import com.projeto.banco.Service.EncomendaService;
@@ -14,14 +18,8 @@ public class EncomendaController {
     }
 
     @PostMapping
-    public String cadastrar(
-            @RequestParam String numero_pedido,
-            @RequestParam String nome_cliente,
-            @RequestParam String endereco,
-            @RequestParam String cpf) {
-
-        return encomendaService.cadastrar(
-                numero_pedido, nome_cliente, endereco, cpf);
+    public Encomenda cadastrar(@RequestBody Encomenda encomenda) {
+        return encomendaService.cadastrar(encomenda);
     }
 
     @GetMapping

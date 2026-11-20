@@ -24,7 +24,8 @@ public class CobrancaService {
         return repository.findAll();
     }
 
-    public Optional<Cobranca> buscarPorId(Long id) {
-        return repository.findById(id);
+    public Cobranca buscarPorId(Long id) {
+        return repository.findById(id).orElse(null); 
+        // Ou você pode retornar Optional<Cobranca> e tratar no controller
     }
 }
