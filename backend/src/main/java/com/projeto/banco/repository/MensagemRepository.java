@@ -1,7 +1,8 @@
-package com.projeto.banco.repository;
+package com.projeto.banco.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.projeto.banco.model.Mensagem;
 
-public interface MensagemRepository extends JpaRepository<Mensagem, Long> { }
+public interface MensagemRepository
+        extends JpaRepository<Mensagem, Long> {
+}

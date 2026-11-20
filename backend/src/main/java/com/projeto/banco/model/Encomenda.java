@@ -1,71 +1,118 @@
 package com.projeto.banco.model;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.CollectionTable;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OrderColumn;
-import jakarta.persistence.Table;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "encomendas")
+@Entity(name = "tb_encomenda")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Encomenda {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 160)
-    private String nome;
+    @Column(name = "numero_pedido", nullable = false, unique = true, length = 30)
+    private String numeroPedido;
 
-    @Column(nullable = false, length = 300)
-    private String endereco;
-
-    @Column(nullable = false, length = 120)
-    private String contato;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "encomenda_itens", joinColumns = @JoinColumn(name = "encomenda_id"))
-    @OrderColumn(name = "posicao")
-    private List<ItemEncomenda> itens = new ArrayList<>();
-
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal total;
-
-    @Column(nullable = false, length = 40)
-    private String status;
+    @Column(name = "nome_cliente", nullable = false)
+    private String nomeCliente;
 
     @Column(nullable = false)
-    private Instant criadaEm;
+    private String endereco;
 
-    protected Encomenda() { }
+    @Column(name = "cpf_cnpj", nullable = false, length = 18)
+    private String cpfCnpj; // Aceita CPF (PF) ou CNPJ (PJ)
 
-    public Encomenda(String nome, String endereco, String contato, List<ItemEncomenda> itens,
-            BigDecimal total, String status) {
-        this.nome = nome;
+    @Column(nullable = false)
+    private LocalDateTime dataPedido = LocalDateTime.now(); // Registro de quando foi feito
+
+    @Column(nullable = false)
+    private LocalDateTime dataEntregaPrevista; // Data/hora agendada para retirada ou entrega
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 25)
+    private StatusEncomenda status = StatusEncomenda.PENDENTE;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal valorTotal = BigDecimal.ZERO;
+
+    @Column(length = 500)
+    private String observacoesGerais; // Ex: "Entregar na portaria", "Pagamento na retirada"
+
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente; // Vínculo com ClienteFisica ou ClienteEmpresa
+
+    @ManyToOne
+    @JoinColumn(name = "filial_id")
+    private Filial filial; // Unidade física da padaria responsável pelo pedido
+
+    @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemEncomenda> itens = new ArrayList<>();
+
+    @OneToMany(mappedBy = "encomenda", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("dataEnvio ASC")
+    private List<Mensagem> historicoMensagens = new ArrayList<>();
+
+    public Encomenda(String numeroPedido, String nomeCliente, String endereco, String cpfCnpj,
+                     LocalDateTime dataEntregaPrevista, Cliente cliente, Filial filial) {
+        this.numeroPedido = numeroPedido;
+        this.nomeCliente = nomeCliente;
         this.endereco = endereco;
-        this.contato = contato;
-        this.itens = new ArrayList<>(itens);
-        this.total = total;
-        this.status = status;
-        this.criadaEm = Instant.now();
+        this.cpfCnpj = cpfCnpj;
+        this.dataPedido = LocalDateTime.now();
+        this.dataEntregaPrevista = dataEntregaPrevista;
+        this.cliente = cliente;
+        this.filial = filial;
+        this.status = StatusEncomenda.PENDENTE;
     }
 
-    public Long getId() { return id; }
-    public String getNome() { return nome; }
-    public String getEndereco() { return endereco; }
-    public String getContato() { return contato; }
-    public List<ItemEncomenda> getItens() { return itens; }
-    public BigDecimal getTotal() { return total; }
-    public String getStatus() { return status; }
-    public Instant getCriadaEm() { return criadaEm; }
+    // --- Métodos de Gestão do Pedido ---
+
+    public void adicionarItem(ItemEncomenda item) {
+        item.setEncomenda(this);
+        item.calcularSubtotal();
+        this.itens.add(item);
+        recalcularValorTotal();
+    }
+
+    public void removerItem(ItemEncomenda item) {
+        this.itens.remove(item);
+        item.setEncomenda(null);
+        recalcularValorTotal();
+    }
+
+    public void recalcularValorTotal() {
+        this.valorTotal = this.itens.stream()
+                .map(ItemEncomenda::getSubtotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    // --- Métodos de Gestão do Chat ---
+
+    public void enviarMensagem(String remetente, TipoRemetente tipo, String texto) {
+        Mensagem novaMensagem = new Mensagem(this, remetente, tipo, texto);
+        this.historicoMensagens.add(novaMensagem);
+    }
 }
+

@@ -1,50 +1,65 @@
 package com.projeto.banco.model;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
-@Table(name = "mensagens")
+@Entity(name = "tb_mensagem")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Mensagem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 160)
-    private String nome;
+    @ManyToOne
+    @JoinColumn(name = "encomenda_id", nullable = false)
+    private Encomenda encomenda; // Vincula todas as mensagens ao histórico da encomenda
 
-    @Column(length = 160)
-    private String email;
+    @Column(nullable = false, length = 100)
+    private String remetente; // Nome de quem enviou (Ex: "Carlos" ou "Padaria Central")
 
-    @Column(length = 120)
-    private String contato;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private TipoRemetente tipoRemetente; // CLIENTE, ATENDENTE ou SISTEMA
 
-    @Column(nullable = false, length = 4000)
+    @Column(nullable = false, length = 1000)
     private String texto;
 
+    @Column(name = "data_envio", nullable = false)
+    private LocalDateTime dataEnvio = LocalDateTime.now();
+
     @Column(nullable = false)
-    private Instant criadaEm;
+    private Boolean lida = false;
 
-    protected Mensagem() { }
+    private LocalDateTime dataLeitura;
 
-    public Mensagem(String nome, String email, String contato, String texto) {
-        this.nome = nome;
-        this.email = email;
-        this.contato = contato;
+    public Mensagem(Encomenda encomenda, String remetente, TipoRemetente tipoRemetente, String texto) {
+        this.encomenda = encomenda;
+        this.remetente = remetente;
+        this.tipoRemetente = tipoRemetente;
         this.texto = texto;
-        this.criadaEm = Instant.now();
+        this.dataEnvio = LocalDateTime.now();
+        this.lida = false;
     }
 
-    public Long getId() { return id; }
-    public String getNome() { return nome; }
-    public String getEmail() { return email; }
-    public String getContato() { return contato; }
-    public String getTexto() { return texto; }
-    public Instant getCriadaEm() { return criadaEm; }
+    public void marcarComoLida() {
+        if (!this.lida) {
+            this.lida = true;
+            this.dataLeitura = LocalDateTime.now();
+        }
+    }
 }

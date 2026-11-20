@@ -1,50 +1,28 @@
 package com.projeto.banco.model;
+import  jakart.persistence.column;
+import  Jakart.persistence.Entity;
+import  Jakart.persistence.GeneratedValue;
+import  Jakart.persistence.GeneratedType;
+import  Jakart.persistence.id;
+import  lombok.Getter;
+import  lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.Instant;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "cobrancas")
-public class Cobranca {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private Long encomendaId;
-
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal valor;
-
-    @Column(nullable = false, length = 40)
-    private String metodo;
-
-    @Column(nullable = false, length = 40)
-    private String status;
-
-    @Column(nullable = false)
-    private Instant criadaEm;
-
-    protected Cobranca() { }
-
-    public Cobranca(Long encomendaId, BigDecimal valor, String metodo) {
-        this.encomendaId = encomendaId;
-        this.valor = valor;
-        this.metodo = metodo;
-        this.status = "DEMONSTRACAO_NAO_PROCESSADA";
-        this.criadaEm = Instant.now();
-    }
-
-    public Long getId() { return id; }
-    public Long getEncomendaId() { return encomendaId; }
-    public BigDecimal getValor() { return valor; }
-    public String getMetodo() { return metodo; }
-    public String getStatus() { return status; }
-    public Instant getCriadaEm() { return criadaEm; }
+@Entity(nome = "tb_cobranca")
+@Getter
+@NoArgsConstructor
+class cobranca {
+    @id
+    @GeneratedValue(stratagy = GeneratedType.IDENTITY)
+    private long id;
+    @column(nullable = false)
+    private String data;
+    @column(nullable = false)
+    private String valor;
+    @column(nullable = false)
+    private String instituicao;
+    @column(nullable = false)
+    private String lembrete;
+    
+    
 }
+
