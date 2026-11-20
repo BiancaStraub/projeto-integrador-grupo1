@@ -1,7 +1,9 @@
+
 package com.projeto.banco.Controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.projeto.banco.Service.EncomendaService;
@@ -28,7 +30,10 @@ public class EncomendaController {
     }
 
     @GetMapping("/{id}")
-    public Encomenda buscar(@PathVariable Long id) {
-        return encomendaService.buscarPorId(id);
+    public ResponseEntity<Encomenda> buscar(@PathVariable Long id) {
+        return encomendaService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }
+

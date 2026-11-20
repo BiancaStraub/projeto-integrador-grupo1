@@ -1,7 +1,9 @@
+
 package com.projeto.banco.Controller;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.projeto.banco.Service.FilialService;
@@ -18,12 +20,8 @@ public class FilialController {
     }
 
     @PostMapping
-    public String cadastrar(
-            @RequestParam String nome,
-            @RequestParam String endereco,
-            @RequestParam String contato) {
-
-        return filialService.cadastrar(nome, endereco, contato);
+    public Filial cadastrar(@RequestBody Filial filial) {
+        return filialService.cadastrar(filial);
     }
 
     @GetMapping
@@ -32,7 +30,9 @@ public class FilialController {
     }
 
     @GetMapping("/{id}")
-    public Filial buscar(@PathVariable Long id) {
-        return filialService.buscarPorId(id);
+    public ResponseEntity<Filial> buscar(@PathVariable Long id) {
+        return filialService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

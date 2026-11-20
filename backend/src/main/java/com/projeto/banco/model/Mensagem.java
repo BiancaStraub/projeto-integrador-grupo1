@@ -1,3 +1,4 @@
+
 package com.projeto.banco.model;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,7 +49,8 @@ public class Mensagem {
 
     private LocalDateTime dataLeitura;
 
-    public Mensagem(Encomenda encomenda, String remetente, TipoRemetente tipoRemetente, String texto) {
+    public Mensagem(Encomenda encomenda, String remetente,
+                    TipoRemetente tipoRemetente, String texto) {
         this.encomenda = encomenda;
         this.remetente = remetente;
         this.tipoRemetente = tipoRemetente;
