@@ -1,3 +1,4 @@
+
 package com.projeto.banco.model;
 
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +31,7 @@ public class OpcaoRecheio {
     private Long id;
 
     @Column(nullable = false, length = 100)
-    private String nome; // Ex: "Brigadeiro Gourmet", "Frango com Requeijão"
+    private String nome;
 
     @Column(name = "preco_adicional", nullable = false, precision = 10, scale = 2)
     private BigDecimal precoAdicional = BigDecimal.ZERO;
@@ -37,25 +39,23 @@ public class OpcaoRecheio {
     @Column(nullable = false)
     private Boolean disponivel = true;
 
-    // --- Especificações do Recheio ---
+    // Especificações do Recheio
 
     @Column(length = 300)
-    private String descricao; // Ex: "Creme de chocolate meio amargo 50% cacau com textura aveludada"
+    private String descricao;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private CategoriaRecheio categoria;
 
     @Column(length = 200)
-    private String alergenicos; // Ex: "Contém glúten, lactose e derivados de soja"
+    private String alergenicos;
 
     @Column(nullable = false)
     private Boolean permitePersonalizacao = true;
 
     @Column(nullable = false)
-    private Integer maximoIngredientesExtras = 3; // Limite de adicionais que o cliente pode escolher
-
-    // --- Ingredientes Disponíveis para Personalização ---
+    private Integer maximoIngredientesExtras = 3;
 
     @ManyToMany
     @JoinTable(
@@ -75,7 +75,7 @@ public class OpcaoRecheio {
         this.disponivel = true;
     }
 
-    // --- Métodos Auxiliares de Gestão ---
+    // Métodos Auxiliares de Gestão
 
     public void adicionarIngredienteDisponivel(IngredientePersonalizacao ingrediente) {
         this.ingredientesDisponiveis.add(ingrediente);
@@ -83,5 +83,12 @@ public class OpcaoRecheio {
 
     public void removerIngredienteDisponivel(IngredientePersonalizacao ingrediente) {
         this.ingredientesDisponiveis.remove(ingrediente);
+    }
+
+    // Método para atualizar os ingredientes disponíveis
+
+    public void setIngredientesDisponiveis(
+            Set<IngredientePersonalizacao> ingredientesDisponiveis) {
+        this.ingredientesDisponiveis = ingredientesDisponiveis;
     }
 }

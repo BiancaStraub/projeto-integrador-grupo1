@@ -24,10 +24,10 @@ public class Filial {
     private Long id;
 
     @Column(nullable = false, length = 100)
-    private String nome; // Ex: "Padaria Central - Unidade Centro"
+    private String nome; 
 
     @Column(nullable = false, unique = true, length = 18)
-    private String cnpj; // Cada unidade física possui um CNPJ próprio
+    private String cnpj; 
 
     @Column(nullable = false)
     private String endereco;
@@ -37,8 +37,8 @@ public class Filial {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoUnidade tipoUnidade; // Diferencia Matriz, Filial, Quiosque, etc.
+    private TipoUnidade tipoUnidade; 
 
     @Column(nullable = false)
-    private Boolean ativa = true; // Permite desativar uma unidade sem apagar o histórico
+    private Boolean ativa = true;
 }

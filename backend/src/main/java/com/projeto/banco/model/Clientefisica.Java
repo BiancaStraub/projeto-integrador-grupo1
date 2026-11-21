@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "tb_cliente_fisica")
-@PrimaryKeyJoinColumn(name = "cliente_id") // Liga o registro de PF ao ID da tabela tb_cliente
+@PrimaryKeyJoinColumn(name = "cliente_id")
 @Getter
 @Setter
 @NoArgsConstructor

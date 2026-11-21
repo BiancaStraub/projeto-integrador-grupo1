@@ -27,4 +27,4 @@ public class CartaoService {
     public Optional<Cartao> buscarPorId(Long id) {
         return repository.findById(id);
     }
-}
+}uioluiluilç 
